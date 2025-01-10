@@ -41,8 +41,6 @@
                         Preço
                     </label>
                     <input name="price" class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-gray-600" id="price" type="text" oninput="formatCurrency(this)" />
-                    
-                    
                 </div>
 
                 <script>
@@ -78,7 +76,7 @@
                     </label>
                     <div class="flex items-center">
                         <button type="button" class="bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-l" id="decrease-btn">-</button>
-                        <input type="number" id="stock-input" name="stock" value="0" class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-gray-600" min="0">
+                        <input type="number" id="stock-input" name="stock" value="0" class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 py-3 px-4 leading-tight focus:outline-none focus:bg-gray-600" min="0">
                         <button type="button" class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-r" id="increase-btn">+</button>
                     </div>
                 </div>
@@ -115,9 +113,25 @@
                 </div>
             </div>
 
-            
+            <!-- Imagens -->
+            <div class="flex flex-wrap -mx-3 mb-6">
+                @foreach (['image01', 'image02', 'image03'] as $index => $imageId)
+                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="{{ $imageId }}">
+                        Imagem {{ $index + 1 }}
+                    </label>
+                    <label for="{{ $imageId }}" class="cursor-pointer w-full h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
+                        <img id="image-preview{{ $index + 1 }}" src="" alt="" class="hidden w-full h-full object-cover absolute inset-0">
+                        <svg width="64px" height="64px" viewBox="-4.8 -4.8 33.60 33.60" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 7C3 4.79086 4.79086 3 7 3H17C19.2091 3 21 4.79086 21 7V17C21 19.2091 19.2091 21 17 21H7C4.79086 21 3 19.2091 3 17V7Z" stroke="#ffffff" stroke-width="0.792"></path> <path d="M9 11C10.1046 11 11 10.1046 11 9C11 7.89543 10.1046 7 9 7C7.89543 7 7 7.89543 7 9C7 10.1046 7.89543 11 9 11Z" stroke="#ffffff" stroke-width="0.792" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 20L6.87381 16.4077C7.51098 15.6113 8.65134 15.4342 9.5 16C10.3487 16.5658 11.489 16.3887 12.1262 15.5922L13.7254 13.5933C14.4252 12.7185 15.7069 12.5891 16.5675 13.3062L21 17" stroke="#ffffff" stroke-width="0.792"></path> </g></svg>
+                        <span class="text-sm mt-2">Selecionar Imagem</span>
+                        <button id="remove-btn{{ $index + 1 }}" class="hidden bg-red-500 text-white rounded px-3 py-1 mt-2">Remover</button>
+                        <input class="hidden" name="image{{ $index + 1 }}" id="{{ $imageId }}" type="file" onchange="previewImage(event, 'image-preview{{ $index + 1 }}', 'image-icon{{ $index + 1 }}', 'remove-btn{{ $index + 1 }}')">
+                    </label>
+                </div>
+                @endforeach
+            </div>
 
-            <!-- Comentário -->
+            
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
                     <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="comment">
@@ -127,7 +141,6 @@
                 </div>
             </div>
 
-            <!-- Botão de Envio -->
             <div class="flex justify-center mt-6">
                 <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Registrar Produto
@@ -136,19 +149,4 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.getElementById('increase-btn').addEventListener('click', () => {
-        let stockInput = document.getElementById('stock-input');
-        stockInput.value = parseInt(stockInput.value) + 1;
-    });
-
-    document.getElementById('decrease-btn').addEventListener('click', () => {
-        let stockInput = document.getElementById('stock-input');
-        if (parseInt(stockInput.value) > 0) {
-            stockInput.value = parseInt(stockInput.value) - 1;
-        }
-    });
-</script>
-
 @endsection

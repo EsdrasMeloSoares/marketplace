@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle</title>
-    @vite('resources/css/app.css', 'resources/js/app.js')
+    <link rel="stylesheet" href="{{ asset('build/assets/app-v8A8jMM6.css') }}">
 </head>
 <body class="bg-gray-900 text-gray-200">
     <div class="flex h-screen">
@@ -24,5 +24,7 @@
             </main>
         </div>
     </div>
+
+    <script src="{{ asset('build/assets/app-Fwl9nOSa.js') }}"></script>
 </body>
 </html>
