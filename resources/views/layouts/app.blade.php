@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Empresa</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite('resources/css/app.css', 'resources/js/app.js')
+    @vite('resources/css/app.css')
 </head>
 <body class="bg-[#f3f4f6]">
 
@@ -16,5 +16,6 @@
         @yield('content')
     </div>   
 
+    @vite('resources/js/app.js')
 </body>
 </html>
