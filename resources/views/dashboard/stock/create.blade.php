@@ -1,24 +1,159 @@
 @extends('layouts.admin')
 
 @section('content')
-@if(session('success') || $errors->any())
-    <div class="p-4 rounded-lg mb-4 shadow-md {{ session('success') ? 'bg-green-500 text-white' : 'bg-red-800 text-white' }}">
-        {{ session('success') ?? $errors->first() }}
-    </div>
-@endif
+@include('components.flash-message')
 
-<div class="flex justify-center items-center">
-    <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <form class="w-full" method="POST" action="{{ route('dashboard.stock.store') }}" enctype="multipart/form-data">
-            @csrf
+<div class="bg-gray-800 p-4 mt-3 rounded-lg shadow-md col-span-1 md:col-span-2">
+    <div class="bg-gray-800 p-4 mt-3 rounded-lg shadow-md col-span-1 md:col-span-2">
+        <form class="w-full" method="POST" action="{{ route('stock.store') }}" enctype="multipart/form-data">
+            @csrf    
+
+            <div id="image-wrapper" class="flex mb-6 bg-gray-700 rounded-md w-full p-4 space-x-4">
+    <div class="image-container w-1/5 px-2 mb-6" id="input-container-1">
+        <label for="image-input-1" class="w-full border-dashed cursor-pointer h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
+            <div id="preview-container-1" class="w-full h-full flex items-center justify-center">
+                <svg id="image-svg-1" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.00024000000000000003">
+                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <rect x="0" fill="none" width="24" height="24"></rect>
+                                    <g>
+                                        <path d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z"></path>
+                                    </g>
+                                </g>
+                </svg>
+                <span id="image-text-1" class="text-sm mt-2">Adicionar Imagem</span>
+            </div>
+            <input id="image-input-1" name="image_1" class="hidden" type="file" accept="image/*" onchange="previewImage(event, 1)">
+        </label>
+    </div>
+    
+    <!-- Input 2 initially hidden -->
+    <div class="image-container w-1/5 px-2 mb-6 hidden" id="input-container-2">
+        <label for="image-input-2" class="w-full border-dashed cursor-pointer h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
+            <div id="preview-container-2" class="w-full h-full flex items-center justify-center">
+                <svg id="image-svg-2" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.00024000000000000003">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <rect x="0" fill="none" width="24" height="24"></rect>
+                                    <g>
+                                        <path d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z"></path>
+                                    </g>
+                                </g>
+                </svg>
+                <span id="image-text-2" class="text-sm mt-2">Adicionar Imagem </span>
+            </div>
+            <input id="image-input-2" name="image_2" class="hidden" type="file" accept="image/*" onchange="previewImage(event, 2)">
+        </label>
+    </div>
+    
+    <!-- Input 3 initially hidden -->
+    <div class="image-container w-1/5 px-2 mb-6 hidden" id="input-container-3">
+        <label for="image-input-3" class="w-full border-dashed cursor-pointer h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
+            <div id="preview-container-3" class="w-full h-full flex items-center justify-center">
+                <svg id="image-svg-3" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.00024000000000000003">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <rect x="0" fill="none" width="24" height="24"></rect>
+                                    <g>
+                                        <path d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z"></path>
+                                    </g>
+                                </g>
+                </svg>
+                <span id="image-text-3" class="text-sm mt-2">Adicionar Imagem</span>
+            </div>
+            <input id="image-input-3" name="image_3" class="hidden" type="file" accept="image/*" onchange="previewImage(event, 3)">
+        </label>
+    </div>
+    
+    <!-- Input 4 initially hidden -->
+    <div class="image-container w-1/5 px-2 mb-6 hidden" id="input-container-4">
+        <label for="image-input-4" class="w-full border-dashed cursor-pointer h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
+            <div id="preview-container-4" class="w-full h-full flex items-center justify-center">
+                <svg id="image-svg-4" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.00024000000000000003">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <rect x="0" fill="none" width="24" height="24"></rect>
+                                    <g>
+                                        <path d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z"></path>
+                                    </g>
+                                </g>
+                </svg>
+                <span id="image-text-4" class="text-sm mt-2">Adicionar Imagem</span>
+            </div>
+            <input id="image-input-4" name="image_4" class="hidden" type="file" accept="image/*" onchange="previewImage(event, 4)">
+        </label>
+    </div>
+
+    <!-- Input 5 initially hidden -->
+    <div class="image-container w-1/5 px-2 mb-6 hidden" id="input-container-5">
+        <label for="image-input-5" class="w-full border-dashed cursor-pointer h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
+            <div id="preview-container-5" class="w-full h-full flex items-center justify-center">
+                <svg id="image-svg-5" width="64px" height="64px" viewBox="-3.6 -3.6 31.20 31.20" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.00024000000000000003">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <rect x="0" fill="none" width="24" height="24"></rect>
+                                    <g>
+                                        <path d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z"></path>
+                                    </g>
+                                </g>
+                </svg>
+                <span id="image-text-5" class="text-sm mt-2">Adicionar Imagem</span>
+            </div>
+            <input id="image-input-5" name="image_5" class="hidden" type="file" accept="image/*" onchange="previewImage(event, 5)">
+        </label>
+    </div>
+</div>
+
+<script>
+    function previewImage(event, inputId) {
+        const previewContainer = document.getElementById(`preview-container-${inputId}`);
+        const imageSvg = document.getElementById(`image-svg-${inputId}`);
+        const imageText = document.getElementById(`image-text-${inputId}`);
+        const file = event.target.files[0];
+        
+        // Hide the current input's svg and text when an image is selected
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
             
-            <!-- Nome do Produto e Categoria -->
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('object-cover', 'w-full', 'h-full', 'rounded-lg');
+                previewContainer.innerHTML = '';
+                previewContainer.appendChild(img);
+                
+                // Hide the SVG and text
+                imageSvg.style.display = 'none';
+                imageText.style.display = 'none';
+                
+                // Show the next input container
+                const nextInputContainer = document.getElementById(`input-container-${inputId + 1}`);
+                if (nextInputContainer) {
+                    nextInputContainer.classList.remove('hidden');
+                }
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+            
+
+
+
+
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="product_name">
                         Nome do Produto
                     </label>
-                    <input class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-gray-600" id="product_name" name="product_name" type="text" placeholder="Camisa Lacoste">
+                    <input class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-gray-600" id="product_name" name="product_name" type="text">
                 </div>
 
                 <div class="w-full md:w-1/2 px-3">
@@ -27,7 +162,7 @@
                     </label>
                     <select name="categories" class="block appearance-none w-full bg-gray-700 border border-gray-600 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-600" id="categories">
                         @foreach ($categories as $categorie)
-                            <option value="{{ $categorie->id }}">{{ strtoupper($categorie->name) }}</option>
+                            <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
                         @endforeach
                     </select>
                     <p class="text-blue-600 text-xs italic mt-2"><a href="#">Criar nova categoria</a></p>
@@ -42,33 +177,6 @@
                     </label>
                     <input name="price" class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-gray-600" id="price" type="text" oninput="formatCurrency(this)" />
                 </div>
-
-                <script>
-                    function formatCurrency(input) {
-                        let value = input.value;
-                
-                        // Remove caracteres não numéricos (exceto ponto)
-                        value = value.replace(/\D/g, '');
-                
-                        // Adiciona separador de milhar (ponto) e ponto como separador decimal
-                        if (value.length > 2) {
-                            // Coloca o ponto antes dos dois últimos dígitos
-                            value = value.replace(/(\d)(\d{2})$/, '$1.$2');
-                        }
-                
-                        if (value.length > 6) {
-                            // Coloca o ponto a cada 3 dígitos antes do ponto decimal
-                            value = value.replace(/(\d)(\d{3})(\d{3})$/, '$1.$2.$3');
-                        }
-                
-                        if (value.length > 9) {
-                            value = value.replace(/(\d)(\d{3})(\d{3})(\d{3})$/, '$1.$2.$3.$4');
-                        }
-                
-                        // Atualiza o valor do input
-                        input.value = value;
-                    }
-                </script>
                 
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="stock">
@@ -113,31 +221,12 @@
                 </div>
             </div>
 
-            <!-- Imagens -->
-            <div class="flex flex-wrap -mx-3 mb-6">
-                @foreach (['image01', 'image02', 'image03'] as $index => $imageId)
-                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="{{ $imageId }}">
-                        Imagem {{ $index + 1 }}
-                    </label>
-                    <label for="{{ $imageId }}" class="cursor-pointer w-full h-40 flex flex-col items-center justify-center bg-gray-700 text-white border border-gray-600 rounded-lg relative overflow-hidden">
-                        <img id="image-preview{{ $index + 1 }}" src="" alt="" class="hidden w-full h-full object-cover absolute inset-0">
-                        <svg width="64px" height="64px" viewBox="-4.8 -4.8 33.60 33.60" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 7C3 4.79086 4.79086 3 7 3H17C19.2091 3 21 4.79086 21 7V17C21 19.2091 19.2091 21 17 21H7C4.79086 21 3 19.2091 3 17V7Z" stroke="#ffffff" stroke-width="0.792"></path> <path d="M9 11C10.1046 11 11 10.1046 11 9C11 7.89543 10.1046 7 9 7C7.89543 7 7 7.89543 7 9C7 10.1046 7.89543 11 9 11Z" stroke="#ffffff" stroke-width="0.792" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 20L6.87381 16.4077C7.51098 15.6113 8.65134 15.4342 9.5 16C10.3487 16.5658 11.489 16.3887 12.1262 15.5922L13.7254 13.5933C14.4252 12.7185 15.7069 12.5891 16.5675 13.3062L21 17" stroke="#ffffff" stroke-width="0.792"></path> </g></svg>
-                        <span class="text-sm mt-2">Selecionar Imagem</span>
-                        <button id="remove-btn{{ $index + 1 }}" class="hidden bg-red-500 text-white rounded px-3 py-1 mt-2">Remover</button>
-                        <input class="hidden" name="image{{ $index + 1 }}" id="{{ $imageId }}" type="file" onchange="previewImage(event, 'image-preview{{ $index + 1 }}', 'image-icon{{ $index + 1 }}', 'remove-btn{{ $index + 1 }}')">
-                    </label>
-                </div>
-                @endforeach
-            </div>
-
-            
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
                     <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="comment">
                         Descrição
                     </label>
-                    <textarea class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-600" id="comment" name="comment" placeholder="Escreva seu comentário aqui..."></textarea>
+                    <textarea class="appearance-none block w-full bg-gray-700 text-white border border-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-600" id="comment" name="comment" placeholder="Descrição do seu Produto"></textarea>
                 </div>
             </div>
 

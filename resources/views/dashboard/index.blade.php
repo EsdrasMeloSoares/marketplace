@@ -11,9 +11,9 @@
 
     <!-- Card 2 -->
     <div class="bg-gray-800 p-4 rounded-lg shadow-md">
-        <h3 class="text-lg font-bold mb-4">Usuários</h3>
-        <p class="text-3xl font-bold">1,024</p>
-        <p class="text-blue-500">+8% from last week</p>
+        <h3 class="text-lg font-bold mb-4">Usuários <span class="text-xs text-gray-400">/ Cadastrados</span></h3>
+        <p class="text-3xl font-bold">{{ $usersCount }}</p>
+        <p class="text-blue-500">{{  $message }}</p>
     </div>
 
     <!-- Card 3 -->

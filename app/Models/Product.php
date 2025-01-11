@@ -28,6 +28,13 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($product) {
+            $product->images()->delete();
+        });
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

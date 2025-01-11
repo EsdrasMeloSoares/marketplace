@@ -4,27 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle</title>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-v8A8jMM6.css') }}">
+    @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-900 text-gray-200">
-    <div class="flex h-screen">
+<body class="bg-gray-900 text-gray-200 flex h-screen">
 
+    @include('components.side-bar')
 
-        @include('components.aside')
-        <div class="flex-1 flex flex-col">
-            <header class="bg-gray-800 p-4 flex justify-between items-center">
-                <h2 class="text-ms font-bold flex">
-                        <a href="{{ route('dashboard.index') }}">Painel de Controle</a><span class="ml-1 text-xs mt-1 text-gray-400">/ {{ $title }}</span>
-                </h2>
-            </header>
-            
+    <div class="flex-1 ml-64 flex flex-col"> 
+        
+        <header class="bg-gray-800 p-4 flex justify-between items-center">
+            <div class="text-white text-bs font-semibold">Painel de Controle <span class="text-xs text-gray-500">/ {{ $title ?? 'Desconhecido'}}</span> </div>
+            <div class="flex items-center space-x-4">
+            </div>
+        </header>
 
-            <main class="p-6 ">
-                @yield('content')
-            </main>
-        </div>
+        <main class="flex-1 p-8 overflow-y-auto">
+            @include('components.flash-message')
+            @yield('content')
+        </main>
     </div>
 
-    <script src="{{ asset('build/assets/app-Fwl9nOSa.js') }}"></script>
+    @vite('resources/js/app.js')
 </body>
 </html>

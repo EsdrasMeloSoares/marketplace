@@ -8,6 +8,7 @@ class ProductImage extends Model
 {
     protected $fillable = [
         'product_id',
+        'category_id',
         'image_path',
     ];
 
