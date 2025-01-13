@@ -12,26 +12,29 @@
         <div class="swiper-button-prev"></div>
     </div>
 
-    
-    <!-- Categorias -->
     <div class="mt-8">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Categorias</h2>
             <div class="flex justify-center">
                 <div class="flex space-x-8 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-300">
-
-                
-                @foreach ($categorias as $categoria)
-                <div class="flex flex-col items-center">
-                    <div class="w-28 h-28 bg-gray-200 rounded-full overflow-hidden shadow-lg">
-                        <img 
-                            src="./src/imgs/imagem-topo/babyDoll.jpg" 
-                            alt="Categorias" 
-                            class="w-full h-full object-cover"
-                        />
-                    </div>
-
-                    <p class="mt-2 text-center text-sm font-semibold text-gray-800">{{ $categoria->name }}</p>
-                    </div>
+                    @foreach ($categorias as $categoria)
+                        <div class="flex flex-col items-center">
+                            <div class="w-28 h-28 bg-gray-200 rounded-full overflow-hidden shadow-lg">
+                                @if ($categoria->productImages->isNotEmpty())
+                                    <img 
+                                        src="{{ asset('storage/' . $categoria->productImages->first()->image_path) }}" 
+                                        alt="Categoria {{ $categoria->name }}" 
+                                        class="w-full h-full object-cover"
+                                    />
+                                @else
+                                    <img 
+                                        src="{{ asset('storage/categories/default-image.jpg') }}" 
+                                        alt="Categoria {{ $categoria->name }}" 
+                                        class="w-full h-full object-cover"
+                                    />
+                                @endif
+                            </div>
+                            <p class="mt-2 text-center text-sm font-semibold text-gray-800">{{ $categoria->name }}</p>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -72,12 +75,8 @@
         
                 </div>
             </div>
-        </div>
-        
-        
-        
-</div>
-    
+        </div>        
+    </div>
 @endsection
 
 

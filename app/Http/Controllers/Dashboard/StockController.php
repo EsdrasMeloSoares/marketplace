@@ -25,63 +25,62 @@ class StockController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'product_name'  => 'required|string|max:255',
-        'categories'    => 'required|exists:categories,id',
-        'price'         => 'required|numeric',
-        'stock'         => 'required|numeric',
-        'imagens.*'     => 'image|mimes:jpeg,png,jpg|', 
-        'checkboxes'    => 'required|array|min:1',
-        'checkboxes.*'  => 'string',
-        'comment'       => 'string',
+    {
+        $validatedData = $request->validate([
+            'product_name'  => 'required|string|max:255',
+            'categories'    => 'required|exists:categories,id',
+            'price'         => 'required|numeric',
+            'stock'         => 'required|numeric',
+            'imagens.*'     => 'image|mimes:jpeg,png,jpg|', 
+            'checkboxes'    => 'required|array|min:1',
+            'checkboxes.*'  => 'string',
+            'comment'       => 'string',
 
-        'image_1' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
-        'image_2' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
-        'image_3' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
-        'image_4' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
-        'image_5' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
-    ], [
-        'product_name.required'  => 'O nome do produto é obrigatório',
-    ]);
+            'image_1' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
+            'image_2' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
+            'image_3' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
+            'image_4' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
+            'image_5' => 'nullable|image|mimes:jpeg,png,jpg,svg|',
+        ], [
+            'product_name.required'  => 'O nome do produto é obrigatório',
+        ]);
 
-    $product =Product::create([
-        'name' => $validatedData['product_name'],
-        'category_id' => $validatedData['categories'],
-        'tamanhos' => json_encode($validatedData['checkboxes']),
-        'stock' => $validatedData['stock'],
-        'price' => $validatedData['price'],
-        'description' => $validatedData['comment'],
-    ]);
+        $product =Product::create([
+            'name' => $validatedData['product_name'],
+            'category_id' => $validatedData['categories'],
+            'tamanhos' => json_encode($validatedData['checkboxes']),
+            'stock' => $validatedData['stock'],
+            'price' => $validatedData['price'],
+            'description' => $validatedData['comment'],
+        ]);
 
-        $directory = "products/{$product->id}";
+            $directory = "products/{$product->id}";
 
-        $imagePaths = [];
+            $imagePaths = [];
 
-        for ($i = 1; $i <= 5; $i++) {
-            $imageKey = "image_{$i}";
+            for ($i = 1; $i <= 5; $i++) {
+                $imageKey = "image_{$i}";
 
-            if ($request->hasFile($imageKey) && $request->file($imageKey)->isValid()) {
-                $imagePath = $request->file($imageKey)->store($directory, 'public');
+                if ($request->hasFile($imageKey) && $request->file($imageKey)->isValid()) {
+                    $imagePath = $request->file($imageKey)->store($directory, 'public');
 
-                $imagePaths[] = [
-                    'product_id' => $product->id,
-                    'image_path' => str_replace('public/', '', $imagePath),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+                    $imagePaths[] = [
+                        'product_id' => $product->id,
+                        'image_path' => str_replace('public/', '', $imagePath),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
             }
-        }
 
-        // Se houver imagens, insira no banco de dados
-        if (!empty($imagePaths)) {
-            DB::table('product_images')->insert($imagePaths);
-        }
+            if (!empty($imagePaths)) {
+                DB::table('product_images')->insert($imagePaths);
+            }
 
 
-    return redirect()->route('stock')->with('success', 'Produto criado com sucesso!');
+            return redirect()->route('stock')->with('success', 'Produto criado com sucesso!');
 
-    }   
+        }   
 
     public function destroy($id)
     {

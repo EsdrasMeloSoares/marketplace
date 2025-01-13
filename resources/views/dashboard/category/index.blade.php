@@ -28,7 +28,7 @@
                 <td class="py-2 px-4 border-b border-gray-700">{{ $categoria->name }}</td>
                 
                 <td class="py-1 px-4 border-b border-gray-700 text-center">
-                     <form action="{{ route('stock.destroy', $categoria->id) }}" method="POST" class="inline">
+                     <form action="{{ route('category.destroy', $categoria->id) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="bg-red-500 text-white px-1 py-1 rounded-lg">

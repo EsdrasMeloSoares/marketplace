@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categorias = Category::inRandomOrder()->take(8)->get();
+        $categorias = Category::with('productImages')->inRandomOrder()->take(8)->get();
         return view('home.index', compact('categorias'));
     }
 }
